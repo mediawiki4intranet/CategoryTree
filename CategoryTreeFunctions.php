@@ -324,14 +324,7 @@ class CategoryTree {
 	 * @return string
 	 */
 	function getOptionsAsUrlParameters() {
-		$u = '';
-
-		foreach ( $this->mOptions as $k => $v ) {
-			if ( $u != '' ) $u .= '&';
-			$u .= $k . '=' . urlencode( $v ) ;
-		}
-
-		return $u;
+		return http_build_query( $this->mOptions );
 	}
 
 	/**
