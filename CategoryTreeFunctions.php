@@ -330,7 +330,7 @@ class CategoryTree {
 		global $wgLang, $wgContLang, $wgRenderHashAppend;
 		$title = self::makeTitle( $category );
 
-		if ( !$title ) {
+		if ( !$title || !$title->userCan( 'read' ) ) {
 			return false; # TODO: error message?
 		}
 
@@ -404,7 +404,7 @@ class CategoryTree {
 
 		$title = self::makeTitle( $category );
 
-		if ( $title === false || $title === null ) {
+		if ( $title === false || $title === null || !$title->userCan( 'read' ) ) {
 			return false;
 		}
 
@@ -516,6 +516,9 @@ class CategoryTree {
 				# TODO: translation support; ideally added to Title object
 				$t = Title::newFromRow( $row );
 			}
+			if ( !$t->userCan( 'read' ) ) {
+				continue;
+			}
 
 			$cat = null;
 
@@ -567,6 +570,9 @@ class CategoryTree {
 		foreach ( $res as $row ) {
 			# TODO: translation support; ideally added to Title object
 			$t = Title::newFromRow( $row );
+			if ( !$t->userCan( 'read' ) ) {
+				continue;
+			}
 
 			# $trans = $title->getLocalizedText();
 			$trans = ''; # place holder for when translated titles are available
